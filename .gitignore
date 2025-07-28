@@ -88,6 +88,13 @@ target/
 profile_default/
 ipython_config.py
 
+
+src/openpi/utils/converted_libero
+src/openpi/utils/my_libero_data
+src/openpi/utils/parquet_output
+src/openpi/utils/single_libero_raw
+
+
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
 #   intended to run in multiple environments; otherwise, check them in:
