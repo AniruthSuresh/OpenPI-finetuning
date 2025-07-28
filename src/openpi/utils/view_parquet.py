@@ -10,7 +10,20 @@ def save_images_from_parquet(parquet_dir: str, output_dir: str, image_column='im
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    topics_printed = False
+
     for parquet_file in sorted(parquet_dir.glob("*.parquet")):
+
+        if not topics_printed:
+            try:
+                schema = pq.read_schema(parquet_file)
+                print("--- Parquet Topic Names ---")
+                print(schema.names)
+                print("---------------------------\n")
+                topics_printed = True
+            except Exception as e:
+                print(f"[ERROR] Could not read schema from {parquet_file.name}: {e}")
+
         print(f"[INFO] Reading: {parquet_file.name}")
         table = pq.read_table(parquet_file)
         df = table.to_pandas()
