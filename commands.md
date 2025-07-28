@@ -73,5 +73,5 @@ XLA_PYTHON_CLIENT_MEM_FRACTION=0.9
 
 Run the training with:
 ```bash
-XLA_PYTHON_CLIENT_MEM_FRACTION=0.9 uv run scripts/train.py pi0_fast_libero_low_mem_finetune_m
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.9 uv run scripts/train.py pi0_fast_libero_low_mem_finetune_mine
 ```
