@@ -25,7 +25,7 @@ from lerobot.common.datasets.lerobot_dataset import LeRobotDataset
 import tensorflow_datasets as tfds
 import tyro
 
-REPO_NAME = "/home/aniruth/Desktop/RRC/OpenPI-finetuning/src/openpi/utils/converted_libero"  # Name of the output dataset, also used for the Hugging Face Hub
+REPO_NAME = "Aniruth-11/libero_converted_to_lerobot_base"  # Name of the output dataset, also used for the Hugging Face Hub
 
 RAW_DATASET_NAMES = [
     "libero_10_no_noops"
