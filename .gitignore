@@ -88,13 +88,12 @@ target/
 profile_default/
 ipython_config.py
 
-
-src/openpi/utils/converted_libero
 src/openpi/utils/modified_libero_rlds
+src/openpi/utils/converted_libero
 src/openpi/utils/parquet_output
 src/openpi/utils/single_libero_raw
-
-
+src/openpi/libero_10_no_noops
+/home2/aniruth.suresh/OpenPI-finetuning/src/openpi/libero_10_no_noops
 
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
