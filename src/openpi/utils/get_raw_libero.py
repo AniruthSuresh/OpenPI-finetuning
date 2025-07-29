@@ -124,7 +124,7 @@ def extract_data_for_finetuning(tfrecord_path, output_dir):
                 wrist_image_tensor = decode_image(wrist_image_bytes)
                 save_tensor_as_image(wrist_image_tensor, os.path.join(wrist_image_dir, f"{step_idx:05d}.png"))
 
-    print(f"\n✅ Finished! Extracted a total of {episode_idx + 1} episodes.")
+    print(f"\n Finished! Extracted a total of {episode_idx + 1} episodes.")
 
 
 if __name__ == '__main__':
