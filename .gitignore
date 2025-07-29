@@ -90,11 +90,10 @@ ipython_config.py
 
 
 src/openpi/utils/converted_libero
-src/openpi/utils/my_libero_data
+src/openpi/utils/modified_libero_rlds
 src/openpi/utils/parquet_output
 src/openpi/utils/single_libero_raw
 
-src/openpi/libero_10_no_noops
 
 
 # pyenv
