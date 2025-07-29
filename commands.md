@@ -7,7 +7,7 @@ This guide provides all the commands needed to fine-tune OpenPI using a modified
 ## Step 0: Clone the OpenPI Repository
 
 ```bash
-git clone --recurse-submodules git@github.com:Physical-Intelligence/openpi.git
+git clone --recurse-submodules git@github.com:AniruthSuresh/OpenPI-finetuning.git
 
 git submodule update --init --recursive
 ```
@@ -19,16 +19,59 @@ We use uv to manage Python dependencies. Avoid using conda as it can cause issue
 Once you have uv installed, run the following to set up your environment:
 
 ```bash
-cd openpi
 GIT_LFS_SKIP_SMUDGE=1 uv sync
 GIT_LFS_SKIP_SMUDGE=1 uv pip install -e .
 ```
 
-Then, activate your environment:
+⚠️ If You Encounter MuJoCo Build Errors...
+
+Follow these steps to manually install MuJoCo 2.3.7:
+
+
+### Step 1.1: Download MuJoCo
+
+From your home directory (~) , run:
 
 ```bash
-source .venv/bin/activate
+wget https://github.com/google-deepmind/mujoco/releases/download/2.3.7/mujoco-2.3.7-linux-x86_64.tar.gz
 ```
+### Step 1.2: Extract to a Hidden Directory
+
+```bash
+# Create a hidden MuJoCo directory
+mkdir ~/.mujoco
+
+# Extract the downloaded archive
+tar -xf mujoco-2.3.7-linux-x86_64.tar.gz -C ~/.mujoco
+```
+
+### Step 1.3: Add Environment Variables
+
+Open your shell configuration file (assuming Bash):
+
+```bash
+nano ~/.bashrc
+```
+Add the following lines at the end of the file:
+
+```bash
+export MUJOCO_PATH="$HOME/.mujoco/mujoco-2.3.7"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/.mujoco/mujoco-2.3.7/bin"
+```
+
+Save ,  exit and do `source ~/.bashrc`
+
+### Step 1.4: Re-run Installation
+
+Navigate back to your project directory and re-run the installation:
+
+```bash
+cd OpenPI-finetuning
+source .venv/bin/activate
+GIT_LFS_SKIP_SMUDGE=1 uv pip install -e .
+```
+
+
 
 ## Step 2: Install Required Dependencies
 
@@ -43,7 +86,7 @@ uv pip install tensorflow tensorflow_datasets
 Replace the path with your dataset snapshot directory.
 
 ```bash
-uv run /home/aniruth/Desktop/RRC/OpenPI-finetuning/examples/libero/convert_libero_data_to_lerobot.py \
+uv run /home/aniruth/Desktop/RRC/OpenPI-finetuning/examplesexamples/libero/convert_libero_data_to_lerobot.py \
   --data_dir /home/aniruth/Desktop/RRC/OpenPI-finetuning/src/openpi/utils/my_libero_data/datasets--openvla--modified_libero_rlds/snapshots/6ce6aaaaabdbe590b1eef5cd29c0d33f14a08551/ \
   --push_to_hub
 ```
