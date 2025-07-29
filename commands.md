@@ -86,8 +86,8 @@ uv pip install tensorflow tensorflow_datasets
 Replace the path with your dataset snapshot directory.
 
 ```bash
-uv run /home/aniruth/Desktop/RRC/OpenPI-finetuning/examplesexamples/libero/convert_libero_data_to_lerobot.py \
-  --data_dir /home/aniruth/Desktop/RRC/OpenPI-finetuning/src/openpi/utils/my_libero_data/datasets--openvla--modified_libero_rlds/snapshots/6ce6aaaaabdbe590b1eef5cd29c0d33f14a08551/ \
+uv run /home/aniruth/Desktop/RRC/OpenPI-finetuning/examples/libero/convert_libero_data_to_lerobot.py \
+  --data_dir /home/aniruth/Desktop/RRC/OpenPI-finetuning/src/openpi/utils/modified_libero_rlds \
   --push_to_hub
 ```
 

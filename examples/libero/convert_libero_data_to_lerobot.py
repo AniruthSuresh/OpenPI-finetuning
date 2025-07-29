@@ -24,8 +24,11 @@ from lerobot.common.datasets.lerobot_dataset import HF_LEROBOT_HOME
 from lerobot.common.datasets.lerobot_dataset import LeRobotDataset
 import tensorflow_datasets as tfds
 import tyro
+import pathlib
+import tensorflow as tf
+import numpy as np
 
-REPO_NAME = "Aniruth-11/libero_converted_to_lerobot_base"  # Name of the output dataset, also used for the Hugging Face Hub
+REPO_NAME = "Aniruth-11/libero_converted_to_lerobot_base_own"  # Name of the output dataset, also used for the Hugging Face Hub
 
 RAW_DATASET_NAMES = [
     "libero_10_no_noops"
@@ -88,6 +91,63 @@ def main(data_dir: str, *, push_to_hub: bool = False):
                 )
             dataset.save_episode()
 
+    """
+    # --- CUSTOM DATA LOADING LOGIC ---
+    NOTE : This is a dummy implementation to illustrate how we can convert a custom dataset to LeRobot format.
+    ###
+    
+    Find all files containing  .tfrecord in the provided data directory.
+    data_path = pathlib.Path(data_dir)
+    tfrecord_files = sorted(list(data_path.glob("*.tfrecord*")))
+
+    if not tfrecord_files:
+        print(f"[ERROR] No .tfrecord files found in directory: {data_dir}")
+        return
+
+    print(f"[INFO] Found {len(tfrecord_files)} TFRecord files to process.")
+
+    # Loop over each found TFRecord file.
+    for tfrecord_path in tfrecord_files:
+
+        print(f"\n--- Processing file: {tfrecord_path.name} ---")
+        raw_dataset = tf.data.TFRecordDataset(str(tfrecord_path))
+
+        # Each record in the file is a complete episode.
+        for raw_record in raw_dataset:
+            example = tf.train.Example()
+            example.ParseFromString(raw_record.numpy())
+            features = example.features.feature
+
+            # Extract the flattened data arrays for the entire episode.
+            state_flat = np.array(features["steps/observation/state"].float_list.value)
+            action_flat = np.array(features["steps/action"].float_list.value)
+            
+            # Reshape the arrays to get per-step data => 8D state and 7D action.
+            states = state_flat.reshape(-1, 8)
+            actions = action_flat.reshape(-1, 7)
+            num_steps = states.shape[0]
+
+            # Extract the list of images and the single language instruction for the episode.
+            image_list = features["steps/observation/image"].bytes_list.value
+            wrist_image_list = features["steps/observation/wrist_image"].bytes_list.value
+            instruction = features["steps/language_instruction"].bytes_list.value[0].decode('utf-8')
+
+            # Loop through each step of the episode and add it as a frame.
+            for step_idx in range(num_steps):
+                dataset.add_frame(
+                    {
+                        "image": image_list[step_idx],
+                        "wrist_image": wrist_image_list[step_idx],
+                        "state": states[step_idx],
+                        "actions": actions[step_idx],
+                        "task": instruction,
+                    }
+                )
+            
+            # After adding all frames for an episode, save it.
+            dataset.save_episode()
+            print(f"  > Saved episode with {num_steps} steps.")
+    """
     # Optionally push to the Hugging Face Hub
     if push_to_hub:
         dataset.push_to_hub(
