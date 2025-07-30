@@ -67,6 +67,8 @@ Navigate back to your project directory and re-run the installation:
 
 ```bash
 cd OpenPI-finetuning
+
+
 source .venv/bin/activate
 GIT_LFS_SKIP_SMUDGE=1 uv pip install -e .
 ```
